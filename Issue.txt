@@ -1,0 +1,27 @@
+
+Client does not send notification if message is not delivered
+
+Short description what code does:
+I am using pub/sub pattern with QoS-1.
+Publisher & Subscriber connect to broker via websockets, publisher sends message every 5 sec.
+I have a rabbitmq server maintenance several times per week. As a result of that maintenance - server restarts and all queues are lost.
+I need publisher to be acknowledged if it publishes message that is not delivered to subscriber, so I can resubscribe last.
+
+
+Environment setup:
+- .NET Core 3.0
+- RabbitMQ 3.7
+- Plugin: Mqtt
+- Client Lib: MQTTnet (https://github.com/chkr1011/MQTTnet)
+
+Steps to reproduce:
+- Run 'docker-compose -f docker-compose-brokers.yml up' from root folder
+- Run 'dotnet run' from project folder (src/Test/)
+- http://localhost:15672/#/queues (username="test", pass="test")
+- Delete Queue mqtt-subscription-subscriberqos1
+
+Expected result:
+Publisher is acknowledged about not delivered message to subscriber.
+
+Actual result:
+Publisher is connected but does not know that message is not delivered because binding (between subscriber queue and exchange) was deleted.
