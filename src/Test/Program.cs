@@ -75,7 +75,7 @@ namespace Test
                 .Build();
 
                 Console.WriteLine();
-                await Task.Delay(1_000);
+                await Task.Delay(5_000);
 
                 try
                 {

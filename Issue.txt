@@ -1,5 +1,5 @@
 
-Client does not send notification if message is not delivered
+Client isn't being notified by mqtt plugin if message is not delivered
 
 Short description what code does:
 I am using pub/sub pattern with QoS-1.
@@ -14,14 +14,18 @@ Environment setup:
 - Plugin: Mqtt
 - Client Lib: MQTTnet (https://github.com/chkr1011/MQTTnet)
 
+Code example can be found here: https://github.com/OstapTsizh/Test
+
 Steps to reproduce:
 - Run 'docker-compose -f docker-compose-brokers.yml up' from root folder
 - Run 'dotnet run' from project folder (src/Test/)
 - http://localhost:15672/#/queues (username="test", pass="test")
 - Delete Queue mqtt-subscription-subscriberqos1
 
+Publish returns MqttClientPublishResult
+
 Expected result:
-Publisher is acknowledged about not delivered message to subscriber.
+Exception or MqttClientPublishResult.ReasonCode = MqttClientPublishReasonCode.NoMatchingSubscribers
 
 Actual result:
-Publisher is connected but does not know that message is not delivered because binding (between subscriber queue and exchange) was deleted.
+MqttClientPublishResult.ReasonCode = Success
